@@ -5,14 +5,20 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Image;
 
 class UserRegistrationController extends Controller
 {
     public function showRegistrationForm()
     {
-        return view('admin.users.register');
+        if (Auth::user()->role == 'Admin') {
+            return view('admin.users.register');
+        } else {
+            return redirect('/home');
+        }
     }
 
     public function userSave(Request $request)
@@ -49,7 +55,63 @@ class UserRegistrationController extends Controller
 
     public function userList()
     {
-        $users = User::all();
-        return view('admin.users.user-list', ['users'=>$users]);
+        if (Auth::user()->role == 'Admin') {
+            $users = User::all();
+            return view('admin.users.user-list', ['users'=>$users]);
+        } else {
+            return redirect('/home');
+        }
+    }
+
+    public function userProfile($userId)
+    {
+        $user = User::find($userId);
+        return view('admin.users.profile', ['user'=>$user]);
+    }
+
+    public function changeUserInfo($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.change-user-info', ['user'=>$user]);
+    }
+
+    public function userInfoUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'name'=>'required|string|max:255',
+            'mobile'=>'required|string|max:13|min:13',
+            'email'=>'required|string|max:255|email'
+        ]);
+        $user = User::find($request->user_id);
+        $user->name = $request->name;
+        $user->mobile = $request->mobile;
+        $user->email = $request->email;
+        $user->save();
+
+        return redirect("/user-profile/$request->user_id")->with('message', 'Operation Successfull.');
+    }
+
+    public function changeUserAvatar($id)
+    {
+        $user = User::find($id);
+        return view('admin.users.change-user-avatar', ['user'=>$user]);
+    }
+
+    public function updateUserPhoto(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        $file = $request->file('avatar');
+        $imageName = $file->getClientOriginalName();
+        $directory = 'admin/assets/avatar/';
+        $imageUrl = $directory.$imageName;
+        // $file->move($directory, $imageUrl);
+
+        Image::make($file)->resize(300, 300)->save($imageUrl);
+
+        $user->avatar = $imageUrl;
+        $user->save();
+
+        return redirect("/user-profile/$request->user_id")->with('message', 'Photo Upload Successfull');
     }
 }

@@ -55,7 +55,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html"><span class="fa fa-home"></span> Home <span
+                    <a class="nav-link" href="{{route('home')}}"><span class="fa fa-home"></span> Home <span
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item dropdown">
@@ -103,6 +103,19 @@
                                 <li><a href="#" class="dropdown-item">Batch List</a></li>
                             </ul>
                         </li>
+
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">User</a>
+                            <ul class="dropdown-menu">
+                                @if(Auth::user()->role == 'Admin')
+                                <li><a href="{{route('user-registration')}}" class="dropdown-item">Add User</a></li>
+                                <li><a href="{{route('user-list')}}" class="dropdown-item">User List</a></li>
+                                @endif
+                                <li><a href="{{route('user-profile', ['userId'=>Auth::user()->id])}}"
+                                        class="dropdown-item">User Profile</a></li>
+                            </ul>
+                        </li>
+
 
                     </ul>
                 </li>

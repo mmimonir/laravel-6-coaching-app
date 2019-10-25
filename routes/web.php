@@ -15,20 +15,44 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/user-registration', [
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/user-registration', [
     'uses'=>'UserRegistrationController@showRegistrationForm',
     'as'=> 'user-registration'
-])->middleware('auth');
+]);
 
-Route::post('/user-registration', [
+    Route::post('/user-registration', [
     'uses'=>'UserRegistrationController@userSave',
     'as'=> 'user-save'
-])->middleware('auth');
+]);
 
-Route::get('/user-list', [
+    Route::get('/user-list', [
     'uses'=>'UserRegistrationController@userList',
     'as'=> 'user-list'
-])->middleware('auth');
+]);
+
+    Route::get('/user-profile/{userId}', [
+    'uses'=>'UserRegistrationController@userProfile',
+    'as'=> 'user-profile'
+]);
+    Route::get('/change-user-info/{id}', [
+    'uses'=>'UserRegistrationController@changeUserInfo',
+    'as'=> 'change-user-info'
+]);
+    Route::post('/user-info-update', [
+    'uses'=>'UserRegistrationController@userInfoUpdate',
+    'as'=> 'user-info-update'
+]);
+    Route::get('/change-user-avatar/{id}', [
+    'uses'=>'UserRegistrationController@changeUserAvatar',
+    'as'=> 'change-user-avatar'
+]);
+    Route::post('/update-user-photo', [
+    'uses'=>'UserRegistrationController@updateUserPhoto',
+    'as'=> 'update-user-photo'
+]);
+});
+
 
 Auth::routes();
 
