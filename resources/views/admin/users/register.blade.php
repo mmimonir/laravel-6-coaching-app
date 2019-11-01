@@ -21,6 +21,11 @@
                         <option value="Admin">Admin</option>
                         <option value="User">User</option>
                     </select>
+                    @error('role')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                    @enderror
                 </div>
 
 

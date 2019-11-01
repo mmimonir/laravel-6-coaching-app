@@ -51,9 +51,27 @@ Route::group(['middleware' => ['auth']], function () {
     'uses'=>'UserRegistrationController@updateUserPhoto',
     'as'=> 'update-user-photo'
 ]);
+    Route::get('/change-user-password/{id}', [
+    'uses'=>'UserRegistrationController@changeUserPassword',
+    'as'=> 'change-user-password'
+]);
+    Route::post('/user-password-update', [
+    'uses'=>'UserRegistrationController@userPasswordUpdate',
+    'as'=> 'user-password-update'
+]);
+
+    // General Section
+    Route::get('/add-header-footer', [
+    'uses'=>'HomePageController@addHeaderFooterForm',
+    'as'=>'add-header-footer'
+]);
+    Route::post('/add-header-footer', [
+    'uses'=>'HomePageController@headerAndFooterSave',
+    'as'=>'header-and-footer-save'
+]);
 });
 
 
-Auth::routes();
+Auth::routes(['register'=>false]);
 
 Route::get('/home', 'HomeController@index')->name('home');

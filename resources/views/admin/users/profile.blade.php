@@ -12,6 +12,14 @@
                 </button>
             </div>
             @endif
+            @if (Session::get('error_message'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error : </strong> {{Session::get('error_message')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="form-group">
                 <div class="col-sm-12">
                     <h4 class="text-center font-weight-bold font-italic mt-3">{{$user->name}}'s Profile</h4>
@@ -48,7 +56,9 @@
                                 class="btn btn-sm btn-dark">Change Info</a>
                             <a href="{{route('change-user-avatar', ['id'=>$user->id])}}"
                                 class="btn btn-sm btn-info">Change Photo</a>
-                            <a href="#" class="btn btn-sm btn-danger">Change Password</a>
+                            <a href="{{route('change-user-password', ['id'=>$user->id])}}"
+                                class="btn btn-sm btn-danger">Change
+                                Password</a>
                         </td>
                     </tr>
                 </table>

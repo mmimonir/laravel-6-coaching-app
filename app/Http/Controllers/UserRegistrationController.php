@@ -114,4 +114,27 @@ class UserRegistrationController extends Controller
 
         return redirect("/user-profile/$request->user_id")->with('message', 'Photo Upload Successfull');
     }
+
+    public function changeUserPassword($id)
+    {
+        $user = User::find($id);
+
+        return view('admin.users.change-user-password', ['user'=>$user]);
+    }
+
+    public function userPasswordUpdate(Request $request)
+    {
+        $this->validate($request, [
+            'new_password' => 'required|string|min:8',
+        ]);
+        $oldPassword = $request->password;
+        $user = User::find($request->user_id);
+        if (Hash::check($oldPassword, $user->password)) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+            return redirect("/user-profile/$request->user_id")->with('message', 'Password Changed Successfull');
+        } else {
+            return back()->with('error_message', 'Old Password does not Match. Please try again.....');
+        }
+    }
 }
