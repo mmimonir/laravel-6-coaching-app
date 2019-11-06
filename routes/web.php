@@ -69,6 +69,53 @@ Route::group(['middleware' => ['auth']], function () {
     'uses'=>'HomePageController@headerAndFooterSave',
     'as'=>'header-and-footer-save'
 ]);
+    Route::get('/manage-header-footer/{id}', [
+    'uses'=>'HomePageController@manageHeaderFooter',
+    'as'=>'manage-header-footer'
+]);
+    Route::post('/header-and-footer-update', [
+    'uses'=>'HomePageController@headerAndFooterUpdate',
+    'as'=>'header-and-footer-update'
+]);
+
+    // Slider Section Start
+    Route::get('/add-slide', [
+    'uses'=>'SliderController@addSlide',
+    'as'=>'add-slide'
+]);
+    Route::post('/add-slide', [
+    'uses'=>'SliderController@uploadSlide',
+    'as'=>'upload-slide'
+]);
+    Route::get('/manage-slide', [
+    'uses'=>'SliderController@manageSlide',
+    'as'=>'manage-slide'
+]);
+    Route::get('/slide-unpublished/{id}', [
+    'uses'=>'SliderController@slideUnpublished',
+    'as'=>'slide-unpublished'
+]);
+    Route::get('/slide-published/{id}', [
+    'uses'=>'SliderController@slidePublished',
+    'as'=>'slide-published'
+]);
+    Route::get('/photo-gallery', [
+    'uses'=>'SliderController@photoGallery',
+    'as'=>'photo-gallery'
+]);
+    Route::get('/slide-edit/{id}', [
+    'uses'=>'SliderController@slideEdit',
+    'as'=>'slide-edit'
+]);
+    Route::post('/update-slide', [
+    'uses'=>'SliderController@updateSlide',
+    'as'=>'update-slide'
+]);
+    Route::get('/slide-delete/{id}', [
+    'uses'=>'SliderController@slideDelete',
+    'as'=>'slide-delete'
+]);
+    // Slider Section End
 });
 
 

@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\HeaderFooter;
 use View;
 use Auth;
+use DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,13 +29,11 @@ class AppServiceProvider extends ServiceProvider
     {
         View::composer('admin.includes.header', function ($view) {
             $user = Auth::user();
-            $view->with('user', $user);
+            $header = DB::table('header_footers')->first();
+            $view->with(['user'=> $user, 'header'=>$header]);
         });
 
-        view()->composer('admin.includes.header', function ($view) {
-            $header = HeaderFooter::find(1);
-            $view->with('header', $header);
-        });
+        
 
         view()->composer('admin.includes.footer', function ($view) {
             $footer = HeaderFooter::find(1);

@@ -83,7 +83,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="gallery.html">Gallery</a>
+                    <a class="nav-link" href="{{route('photo-gallery')}}">Gallery</a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -116,11 +116,26 @@
                             </ul>
                         </li>
                         <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Slider</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{route('add-slide')}}" class="dropdown-item">Add Slide</a></li>
+                                <li><a href="{{route('manage-slide')}}" class="dropdown-item">Manage Slide</a></li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
                             <a class="dropdown-item dropdown-toggle" href="#">General</a>
                             <ul class="dropdown-menu">
+                                @if (!isset($header))
                                 <li><a href="{{route('add-header-footer')}}" class="dropdown-item">Add Header &
                                         Footer</a></li>
-                                <li><a href="#" class="dropdown-item">Batch List</a></li>
+                                @endif
+
+                                @if (isset($header))
+                                <li><a href="{{route('manage-header-footer', ['id'=>$header->id])}}"
+                                        class="dropdown-item">Manage Header &
+                                        Footer</a></li>
+                                @endif
+
                             </ul>
                         </li>
 
