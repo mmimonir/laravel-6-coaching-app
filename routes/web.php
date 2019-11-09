@@ -115,7 +115,44 @@ Route::group(['middleware' => ['auth']], function () {
     'uses'=>'SliderController@slideDelete',
     'as'=>'slide-delete'
 ]);
+
     // Slider Section End
+
+    // School Management Start
+    Route::get('/school/add', [
+    'uses'=>'SchoolManagementController@addSchoolForm',
+    'as'=>'add-school'
+]);
+    Route::post('/school/add', [
+    'uses'=>'SchoolManagementController@schoolSave',
+    'as'=>'school-save'
+]);
+    Route::get('/school/list', [
+    'uses'=>'SchoolManagementController@schoolList',
+    'as'=>'school-list'
+]);
+    Route::get('/school/unpublished/{id}', [
+    'uses'=>'SchoolManagementController@schoolUnpublished',
+    'as'=>'school-unpublished'
+]);
+    Route::get('/school/published/{id}', [
+    'uses'=>'SchoolManagementController@schoolPublished',
+    'as'=>'school-published'
+]);
+    Route::get('/school/edit/{id}', [
+    'uses'=>'SchoolManagementController@schoolEditForm',
+    'as'=>'school-edit'
+]);
+    Route::post('/school/update', [
+    'uses'=>'SchoolManagementController@schoolUpdate',
+    'as'=>'school-update'
+]);
+    Route::get('/school/delete/{id}', [
+    'uses'=>'SchoolManagementController@schoolDelete',
+    'as'=>'school-delete'
+]);
+
+    // School Management End
 });
 
 
